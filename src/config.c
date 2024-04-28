@@ -58,7 +58,10 @@ Config *config_new(int argc, char **argv)
 
     // if config path not given use default
     if (!config_path)
-        config_path = g_strdup(DEFAULT_CONFIG_PATH);
+        if(!getenv("HOME"))
+            config_path = g_strdup(DEFAULT_CONFIG_PATH + 1);
+        else
+            config_path = g_strconcat(getenv("HOME"), DEFAULT_CONFIG_PATH + 1, NULL);
 
     // get the key file
     GKeyFile *key_file = g_key_file_new();
